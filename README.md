@@ -1,4 +1,4 @@
-# Power Variable Projection for Initialization-Free Large-Scale Bundle Adjustment, ArXiv
+# Power Variable Projection for Initialization-Free Large-Scale Bundle Adjustment, ECCV 2024
 
 Welcome to the official page of the paper [Power Variable Projection for Initialization-Free Large-Scale Bundle Adjustment](https://arxiv.org/pdf/2405.05079).
 
@@ -8,7 +8,7 @@ The official implementation will be available soon.
 
 ## Abstract
 
-Initialization-free bundle adjustment (BA) remains largely uncharted. While Levenberg-Marquardt algorithm is the golden method to solve the BA problem, it generally relies on a good initialization. In contrast, the under-explored Variable Projection algorithm (VarPro) exhibits a wide convergence basin even without initialization. Coupled with object space error formulation, recent works have shown its ability to solve (small-scale) initialization-free bundle adjustment problem. We introduce Power Variable Projection (PoVar), extending a recent inverse expansion method based on power series. Importantly, we link the power series expansion to Riemannian manifold optimization. This projective framework is crucial to solve large-scale bundle adjustment problem with- out initialization. Using the real-world BAL dataset, we experimentally demonstrate that our solver achieves state-of-the-art results in terms of speed and accuracy. In particular, our work is the first, to our knowledge, that addresses the scalability of BA without initialization and opens new venues for initialization-free Structure-from-Motion.
+Most Bundle Adjustment (BA) solvers like the Levenberg- Marquardt algorithm require a good initialization. Instead, initialization-free BA remains a largely uncharted territory. The under-explored Variable Projection algorithm (VarPro) exhibits a wide convergence basin even without initialization. Coupled with object space error formulation, recent works have shown its ability to solve small-scale initialization-free bundle adjustment problem. To make such initialization-free BA approaches scalable, we introduce Power Variable Projection (PoVar), extending a recent inverse expansion method based on power series. Importantly, we link the power series expansion to Riemannian manifold optimization. This projective framework is crucial to solve large-scale bundle adjustment problems without initialization. Using the real-world BAL dataset, we experimentally demonstrate that our solver achieves state-of-the-art results in terms of speed and accuracy. To our knowledge, this work is the first to address the scalability of BA without initialization opening new venues for initialization-free structure-from-motion.
 
 ## Citation
 If you find our work useful in your research, please consider citing:
