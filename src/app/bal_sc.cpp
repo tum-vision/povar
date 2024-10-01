@@ -36,13 +36,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <glog/logging.h>
 
-#include "rootba/bal/ba_log_utils.hpp"
-#include "rootba/bal/bal_app_options.hpp"
-#include "rootba/cli/bal_cli_utils.hpp"
-#include "rootba/solver/bal_bundle_adjustment.hpp"
+#include "rootba_povar/bal/ba_log_utils.hpp"
+#include "rootba_povar/bal/bal_app_options.hpp"
+#include "rootba_povar/cli/bal_cli_utils.hpp"
+#include "rootba_povar/solver/bal_bundle_adjustment.hpp"
 
 int main(int argc, char** argv) {
-  using namespace rootba;
+  using namespace rootba_povar;
 
   FLAGS_logtostderr = true;
   google::InitGoogleLogging(argv[0]);
@@ -58,17 +58,9 @@ int main(int argc, char** argv) {
 
   // override solver type to force SC solver in this executable
   if (options.solver.solver_type !=
-          SolverOptions::SolverType::SCHUR_COMPLEMENT &&
-      options.solver.solver_type !=
-          SolverOptions::SolverType::IMPLICIT_SCHUR_COMPLEMENT &&
-      options.solver.solver_type !=
-          SolverOptions::SolverType::FACTOR_SCHUR_COMPLEMENT &&
+          SolverOptions::SolverType::PCG &&
       options.solver.solver_type !=
           SolverOptions::SolverType::POWER_SCHUR_COMPLEMENT &&
-      options.solver.solver_type !=
-          SolverOptions::SolverType::IMPLICIT_POWER_SCHUR_COMPLEMENT &&
-      options.solver.solver_type !=
-          SolverOptions::SolverType::EXPLICIT_POWER_SCHUR_COMPLEMENT &&
       options.solver.solver_type !=
           SolverOptions::SolverType::VARPROJ &&
       options.solver.solver_type !=

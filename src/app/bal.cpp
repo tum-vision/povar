@@ -36,14 +36,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <glog/logging.h>
 
-#include "rootba/bal/ba_log_utils.hpp"
-#include "rootba/bal/bal_app_options.hpp"
-#include "rootba/ceres/bal_bundle_adjustment.hpp"
-#include "rootba/cli/bal_cli_utils.hpp"
-#include "rootba/solver/bal_bundle_adjustment.hpp"
+#include "rootba_povar/bal/ba_log_utils.hpp"
+#include "rootba_povar/bal/bal_app_options.hpp"
+#include "rootba_povar/cli/bal_cli_utils.hpp"
+#include "rootba_povar/solver/bal_bundle_adjustment.hpp"
 
 int main(int argc, char** argv) {
-    using namespace rootba;
+    using namespace rootba_povar;
 
     FLAGS_logtostderr = true;
     google::InitGoogleLogging(argv[0]);
@@ -83,37 +82,16 @@ int main(int argc, char** argv) {
     BalPipelineSummary summary;
     BalPipelineSummary summary_tmp;
 
-    if (!options.solver.use_double) {
-#ifdef ROOTBA_INSTANTIATIONS_FLOAT
-        // load dataset
-        auto bal_problem = load_normalized_bal_problem<float>(
-                options.dataset, &summary.dataset, &summary.timing);
+    // load dataset
+    auto bal_problem = load_normalized_bal_problem<double>(
+            options.dataset, &summary.dataset, &summary.timing);
 
-        // run solver
-        bundle_adjust_manual(bal_problem, options.solver, &summary.solver,
-                             &summary.timing, &summary_tmp.solver);
+    // run solver
+    bundle_adjust_manual(bal_problem, options.solver, &summary.solver,
+                         &summary.timing, &summary_tmp.solver);
 
-        // postprocess
-        bal_problem.postprocress(options.dataset, &summary.timing);
-#else
-        LOG(FATAL) << "Compiled without float support.";
-#endif
-    } else {
-#ifdef ROOTBA_INSTANTIATIONS_DOUBLE
-        // load dataset
-        auto bal_problem = load_normalized_bal_problem<double>(
-                options.dataset, &summary.dataset, &summary.timing);
-
-        // run solver
-        bundle_adjust_manual(bal_problem, options.solver, &summary.solver,
-                             &summary.timing, &summary_tmp.solver);
-
-        // postprocess
-        bal_problem.postprocress(options.dataset, &summary.timing);
-#else
-        LOG(FATAL) << "Compiled without double support.";
-#endif
-    }
+    // postprocess
+    bal_problem.postprocress(options.dataset, &summary.timing);
 
     // log summary
     BaLog log;

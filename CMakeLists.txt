@@ -4,7 +4,7 @@ message(STATUS "CMake version: ${CMAKE_VERSION}")
 
 include(cmake/PreventInSourceBuild.cmake)
 
-project(rootba VERSION 0.1.0 LANGUAGES CXX)
+project(rootba_povar VERSION 0.1.0 LANGUAGES CXX)
 
 
 # helper
@@ -104,16 +104,4 @@ include(cmake/SetupDependencies.cmake)
 
 add_subdirectory(external)
 
-if(ROOTBA_ENABLE_TESTING)
-  message(STATUS "Testing is enabled")
-  # enable before src, which also contains unit tests
-  enable_testing()
-  # for gtest_discover_test
-  include(GoogleTest)
-endif()
-
 add_subdirectory(src)
-
-if(ROOTBA_ENABLE_TESTING)
-  add_subdirectory(test)
-endif()
