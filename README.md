@@ -51,8 +51,10 @@ ninja
 You can download the BAL dataset on the [Bundle Adjustment in the Large](https://grail.cs.washington.edu/projects/bal/) webpage. 
 Before using our solver, we randomly initialize a projective camera model, with the option ```--create-dataset```:
 ```
-./bin/bal --input /venice/problem-89-110973-pre.txt --create-dataset true
+./bin/bal --input /venice/problem-89-110973-pre.txt --create-dataset
 ```
+
+The randomized dataset is created in the new folder ```data_custom/``` on the root.
 
 #### Solving initialization-free stratified BA
 
@@ -76,7 +78,7 @@ The implementation uses ```double``` precision.
 #### Command line
 Once the random initialization has been done, you can run the two solvers in a row with, for instance:
 ```
-./bin/bal --num-threads 4 --input /data_custom/venice/problem-89-110973-pre.txt --solver-type-step-1 POWER_SCHUR_COMPLEMENT --solver-type-step-2 RIPOBA 
+./bin/bal --num-threads 4 --input /data_custom/problem-89-110973-pre.txt --solver-type-step-1 POWER_SCHUR_COMPLEMENT --solver-type-step-2 RIPOBA 
 ```
 
 The command ```--help``` will provide some explanations about the different options.

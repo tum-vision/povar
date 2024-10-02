@@ -186,7 +186,8 @@ BalBundleAdjustmentHelper<Scalar>::compute_error_weight(
     }
 
 
-    // to apply Riemannian manifold optimization
+    // @Simon: to apply Riemannian manifold optimization.
+    // Projection onto the tangent space.
     template <typename Scalar>
     Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic> BalBundleAdjustmentHelper<Scalar>::kernel_COD(
             const Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic>& M) {

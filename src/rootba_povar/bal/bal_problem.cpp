@@ -179,126 +179,6 @@ class BalProblemLoader : public FileLoader<cereal::BinaryInputArchive> {
 
 }  // namespace
 
-template <typename Scalar>
-BalProblem<Scalar>::BalProblem(const std::string& path) {
-  load_bal(path);
-}
-
-template <typename Scalar>
-void BalProblem<Scalar>::load_bal(const std::string& path) {
-  FILE* fptr = std::fopen(path.c_str(), "r");
-  if (fptr == nullptr) {
-    LOG(FATAL) << "Could not open '{}'"_format(path);
-  };
-
-  try {
-    // parse header
-    int num_cams;
-    int num_lms;
-    int num_obs;
-    fscan_or_throw(fptr, "%d", &num_cams);
-    fscan_or_throw(fptr, "%d", &num_lms);
-    fscan_or_throw(fptr, "%d", &num_obs);
-    CHECK_GT(num_cams, 0);
-    CHECK_GT(num_lms, 0);
-    CHECK_GT(num_obs, 0);
-    // clear memory and re-allocate
-    if (cameras_.capacity() > unsigned_cast(num_cams)) {
-      decltype(cameras_)().swap(cameras_);
-    }
-    if (landmarks_.capacity() > unsigned_cast(num_lms)) {
-      decltype(landmarks_)().swap(landmarks_);
-    }
-    cameras_.resize(num_cams);
-    landmarks_.resize(num_lms);
-    // parse observations
-    for (int i = 0; i < num_obs; ++i) {
-      int cam_idx;
-      int lm_idx;
-      fscan_or_throw(fptr, "%d", &cam_idx);
-      fscan_or_throw(fptr, "%d", &lm_idx);
-      CHECK_GE(cam_idx, 0);
-      CHECK_LT(cam_idx, num_cams);
-      CHECK_GE(lm_idx, 0);
-      CHECK_LT(lm_idx, num_lms);
-
-      auto [obs, inserted] = landmarks_.at(lm_idx).obs.try_emplace(cam_idx);
-      /// create <landmark, <cam>>
-      landmarks_.at(lm_idx).linked_cam.insert(cam_idx);
-
-      CHECK(inserted) << "Invalid file '{}'"_format(path);
-      Eigen::Matrix<double, 2, 1> posd;
-      fscan_or_throw(fptr, posd);
-      obs->second.pos = posd.cast<Scalar>();
-
-      // For the camera frame we assume the positive z axis pointing
-      // forward in view direction and in the image, y is poiting down, x to the
-      // right. In the original BAL formulation, the camera points in negative z
-      // axis, y is up in the image. Thus when loading the data, we invert the y
-      // and z camera axes (y also in the image) in the perspective projection,
-      // we don't have the "minus" like in the original Snavely model.
-
-      // invert y axis
-      obs->second.pos.y() = -obs->second.pos.y();
-    }
-    // invert y and z axis (same as rotation around x by 180; self-inverse)
-    const SO3 axis_inversion = SO3(Vec3(1, -1, -1).asDiagonal());
-
-    // parse camera parameters
-    for (int i = 0; i < num_cams; ++i) {
-      Vec9 params;
-      Eigen::Matrix<double, 9, 1> paramsd;
-      fscan_or_throw(fptr, paramsd);
-      params = paramsd.cast<Scalar>();
-
-      auto& cam = cameras_.at(i);
-      cam.T_c_w.so3() = axis_inversion * SO3::exp(params.template head<3>());
-      cam.T_c_w.translation() = axis_inversion * params.template segment<3>(3);
-      cam.intrinsics = CameraModel(params.template tail<3>());
-    }
-    // parse landmark parameters
-    for (int i = 0; i < num_lms; ++i) {
-      Eigen::Matrix<double, 3, 1> p_wd;
-      fscan_or_throw(fptr, p_wd);
-      landmarks_.at(i).p_w = p_wd.cast<Scalar>();
-    }
-    /// build sparse graph associated to the SC
-    for (int i = 0; i < num_lms; ++i)
-    {
-      Landmark lm = landmarks_.at(i);
-      std::unordered_set<int> const & linked_cam_i = lm.linked_cam;
-      std::unordered_set<int>::const_iterator it = linked_cam_i.begin();
-      for (; it != linked_cam_i.end(); it++)
-      {
-        int cam_idx1 = *it; //check
-        std::unordered_set<int>::const_iterator it2 = linked_cam_i.begin();
-        for (; it2 != linked_cam_i.end(); it2++)
-        {
-          int cam_idx2 = *it2; //check
-          if (cam_idx1 != cam_idx2)
-          {
-            cameras_.at(cam_idx1).linked_cameras.insert(cam_idx2);
-          }
-        }
-      }
-
-    }
-  } catch (const std::exception& e) {
-    LOG(FATAL) << "Failed to parse '{}'"_format(path);
-  }
-
-  if (!quiet_) {
-    LOG(INFO)
-        << "Loaded BAL problem ({} cams, {} lms, {} obs) from '{}'"_format(
-               num_cameras(), num_landmarks(), num_observations(), path);
-  }
-
-  // Current implementation uses int to compute state vector indices
-  CHECK_LT(num_cameras(), std::numeric_limits<int>::max() / CAM_STATE_SIZE);
-
-  std::fclose(fptr);
-}
-
     template <typename Scalar>
     void BalProblem<Scalar>::load_bal_eccv(const std::string& path) {
         FILE* fptr = std::fopen(path.c_str(), "r");
@@ -359,8 +239,6 @@ void BalProblem<Scalar>::load_bal(const std::string& path) {
                 // invert y axis
                 obs->second.pos.y() = -obs->second.pos.y();
             }
-            // invert y and z axis (same as rotation around x by 180; self-inverse)
-            const SO3 axis_inversion = SO3(Vec3(1, -1, -1).asDiagonal());
 
             // parse camera parameters
             for (int i = 0; i < num_cams; ++i) {
@@ -427,12 +305,17 @@ void BalProblem<Scalar>::load_bal(const std::string& path) {
     //@Simon: for VarProj by considering the camera matrix space instead of SE(3) for poses
     template <typename Scalar>
     void BalProblem<Scalar>::load_bal_varproj_space_matrix_write(const std::string& path) {
+        namespace fs = std::filesystem;
         FILE* fptr = std::fopen(path.c_str(), "r");
+        if (!fs::is_directory("data_custom") || !fs::exists("data_custom")) {
+            fs::create_directory("data_custom");
+        }
 
-        std::string newFileName = "data_custom/" + path;
+        std::size_t found = path.find_last_of("/");
+
+        std::string newFileName = "data_custom/" + path.substr(found+1);
 
         FILE* test = std::fopen(newFileName.c_str(), "w");
-
         std::random_device rd; // @Simon: necessary to initialize the VarProj algorithm
         std::mt19937 gen(rd());
 
@@ -440,7 +323,6 @@ void BalProblem<Scalar>::load_bal(const std::string& path) {
         if (fptr == nullptr) {
             LOG(FATAL) << "Could not open '{}'"_format(path);
         };
-
         try {
             // parse header
             int num_cams;
@@ -457,7 +339,6 @@ void BalProblem<Scalar>::load_bal(const std::string& path) {
             CHECK_GT(num_cams, 0);
             CHECK_GT(num_lms, 0);
             CHECK_GT(num_obs, 0);
-
             // clear memory and re-allocate
             if (cameras_.capacity() > unsigned_cast(num_cams)) {
                 decltype(cameras_)().swap(cameras_);
@@ -467,7 +348,6 @@ void BalProblem<Scalar>::load_bal(const std::string& path) {
             }
             cameras_.resize(num_cams);
             landmarks_.resize(num_lms);
-
             // parse observations
             for (int i = 0; i < num_obs; ++i) {
                 int cam_idx;
@@ -506,9 +386,6 @@ void BalProblem<Scalar>::load_bal(const std::string& path) {
                 obs->second.pos.y() = -obs->second.pos.y();
             }
 
-            // invert y and z axis (same as rotation around x by 180; self-inverse)
-            const SO3 axis_inversion = SO3(Vec3(1, -1, -1).asDiagonal());
-
             // parse camera parameters
             for (int i = 0; i < num_cams; ++i) {
 
@@ -546,7 +423,6 @@ void BalProblem<Scalar>::load_bal(const std::string& path) {
                 fprintf(test,"\n%lf", paramsd.template tail<3>()[1]);
                 fprintf(test,"\n%lf", paramsd.template tail<3>()[2]);
             }
-
 
             // parse landmark parameters
             for (int i = 0; i < num_lms; ++i) { //@Simon: unnecessary for VarProj. We should create a function to derive v*(u0) to get the initialization (u0,v*(u0))
@@ -588,7 +464,6 @@ void BalProblem<Scalar>::load_bal(const std::string& path) {
                     << "Loaded BAL problem ({} cams, {} lms, {} obs) from '{}'"_format(
                             num_cameras(), num_landmarks(), num_observations(), path);
         }
-
         // Current implementation uses int to compute state vector indices
         CHECK_LT(num_cameras(), std::numeric_limits<int>::max() / CAM_STATE_SIZE);
         std::fclose(test);

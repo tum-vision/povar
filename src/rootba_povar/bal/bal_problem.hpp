@@ -259,12 +259,7 @@ class BalProblem {
 
   using Cameras = std::vector<Camera>;
   using Landmarks = std::vector<Landmark>;
-
-  BalProblem() = default;
-  explicit BalProblem(const std::string& path);
-
-  void load_bal(const std::string& path);
-
+  
     void load_bal_varproj_space_matrix_write(const std::string& path);
 
     void load_bal_eccv(const std::string& path);
