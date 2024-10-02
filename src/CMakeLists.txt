@@ -1,3 +1,3 @@
 
-add_subdirectory(rootba)
+add_subdirectory(rootba_povar)
 add_subdirectory(app)

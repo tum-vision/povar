@@ -10,22 +10,8 @@
 #endif()
 
 add_executable(bal bal.cpp)
-target_link_libraries(bal rootba_solver rootba_cli)
-#target_link_libraries(bal rootba_solver rootba_ceres rootba_cli)
+target_link_libraries(bal rootba_povar_solver rootba_povar_cli)
 
-add_executable(bal_gui bal_gui.cpp)
-target_link_libraries(bal_gui rootba_pangolin rootba_solver rootba_cli)
-#target_link_libraries(jarvis -lglut -lGL -lGLU)
-#target_link_libraries(bal_gui rootba_pangolin rootba_solver rootba_ceres rootba_cli)
+#add_executable(bal_sc bal_sc.cpp)
+#target_link_libraries(bal_sc rootba_povar_solver rootba_povar_cli)
 
-#add_executable(bal_ceres bal_ceres.cpp)
-#target_link_libraries(bal_ceres rootba_ceres rootba_cli)
-
-add_executable(bal_qr bal_qr.cpp)
-target_link_libraries(bal_qr rootba_solver rootba_cli)
-
-add_executable(bal_sc bal_sc.cpp)
-target_link_libraries(bal_sc rootba_solver rootba_cli)
-
-add_executable(bal_factor_gui bal_factor_gui.cpp)
-target_link_libraries(bal_factor_gui rootba_pangolin rootba_solver rootba_cli)
