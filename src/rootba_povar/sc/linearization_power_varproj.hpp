@@ -8,7 +8,8 @@
 #pragma once
 
 #include <Eigen/Dense>
-#include <basalt_custom/utils/sophus_utils.hpp>
+#include "rootba_povar/basalt_custom/utils/sophus_utils.hpp"
+//#include <basalt_custom/utils/sophus_utils.hpp>
 #include <glog/logging.h>
 #include <tbb/blocked_range.h>
 #include <tbb/parallel_for.h>

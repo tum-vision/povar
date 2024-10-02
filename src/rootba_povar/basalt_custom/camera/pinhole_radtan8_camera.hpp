@@ -39,9 +39,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #pragma once
 
-#include <basalt/camera/camera_static_assert.hpp>
+#include "rootba_povar/basalt_custom/camera/camera_static_assert.hpp"
 
-#include <basalt/utils/sophus_utils.hpp>
+#include "rootba_povar/basalt_custom/utils/sophus_utils.hpp"
 
 // clang-format off
 // Scalar might not be a literal type (e.g., when Scalar = ceres::Jet), so we

@@ -28,7 +28,7 @@ target_link_libraries(rootba_povar
     rootba_povar::nameof
     rootba_povar::toml11
     rootba_povar::nlohmann_json
-    rootba_povar::basalt_headers
+    #rootba_povar::basalt_headers
     rootba_povar::magic_enum
     rootba_povar::pprint
     rootba_povar::Cereal

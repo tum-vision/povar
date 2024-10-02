@@ -1,0 +1,12 @@
+prefix=/Users/simon/Documents/eccv_github/povar/external/install
+exec_prefix=${prefix}
+libdir=/Users/simon/Documents/eccv_github/povar/external/install/lib
+includedir=/Users/simon/Documents/eccv_github/povar/external/install/include
+
+Name: absl_low_level_hash
+Description: Abseil low_level_hash library
+URL: https://abseil.io/
+Version: 20220623
+Requires: absl_bits = 20220623, absl_config = 20220623, absl_endian = 20220623, absl_int128 = 20220623
+Libs: -L${libdir}  -labsl_low_level_hash
+Cflags: -I${includedir} -Wno-float-conversion -Wno-implicit-float-conversion -Wno-implicit-int-float-conversion -Wno-implicit-int-conversion -Wno-shorten-64-to-32 -Wno-sign-conversion -Wno-unknown-warning-option -DNOMINMAX

@@ -1,0 +1,12 @@
+prefix=/Users/simon/Documents/eccv_github/povar/external/install
+exec_prefix=${prefix}
+libdir=/Users/simon/Documents/eccv_github/povar/external/install/lib
+includedir=/Users/simon/Documents/eccv_github/povar/external/install/include
+
+Name: absl_flags_commandlineflag
+Description: Abseil flags_commandlineflag library
+URL: https://abseil.io/
+Version: 20220623
+Requires: absl_config = 20220623, absl_fast_type_id = 20220623, absl_flags_commandlineflag_internal = 20220623, absl_optional = 20220623, absl_strings = 20220623
+Libs: -L${libdir}  -labsl_flags_commandlineflag
+Cflags: -I${includedir} -Wno-float-conversion -Wno-implicit-float-conversion -Wno-implicit-int-float-conversion -Wno-implicit-int-conversion -Wno-shorten-64-to-32 -Wno-sign-conversion -Wno-unknown-warning-option -DNOMINMAX

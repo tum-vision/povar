@@ -37,7 +37,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <map>
 
-#include <basalt_custom/camera/bal_camera.hpp>
+//#include <basalt_custom/camera/bal_camera.hpp>
+#include "rootba_povar/basalt_custom/camera/bal_camera.hpp"
 
 #include <glog/logging.h>
 #include <unordered_set>

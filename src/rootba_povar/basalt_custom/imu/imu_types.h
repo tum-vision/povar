@@ -38,7 +38,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #pragma once
 
-#include <basalt/utils/sophus_utils.hpp>
+#include "rootba_povar/basalt_custom/utils/sophus_utils.hpp"
 #include <memory>
 
 namespace basalt {

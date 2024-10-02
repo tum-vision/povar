@@ -38,7 +38,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #pragma once
 
-#include <basalt/image/image.h>
+#include "rootba_povar/basalt_custom/image/image.h"
 
 namespace basalt {
 

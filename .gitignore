@@ -1,0 +1,6 @@
+external_original/
+build/
+cmake-build-debug/
+bin/
+external_work/
+external_backup/

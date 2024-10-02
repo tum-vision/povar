@@ -38,7 +38,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #pragma once
 
-#include <basalt/spline/spline_common.h>
+#include "rootba_povar/basalt_custom/spline/spline_common.h"
 #include <Eigen/Dense>
 
 namespace basalt {

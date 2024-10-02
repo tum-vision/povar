@@ -38,14 +38,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #pragma once
 
-#include <basalt/camera/bal_camera.hpp>
-#include <basalt/camera/double_sphere_camera.hpp>
-#include <basalt/camera/extended_camera.hpp>
-#include <basalt/camera/fov_camera.hpp>
-#include <basalt/camera/kannala_brandt_camera4.hpp>
-#include <basalt/camera/pinhole_camera.hpp>
-#include <basalt/camera/pinhole_radtan8_camera.hpp>
-#include <basalt/camera/unified_camera.hpp>
+#include "rootba_povar/basalt_custom/camera/bal_camera.hpp"
+#include "rootba_povar/basalt_custom/camera/double_sphere_camera.hpp"
+#include "rootba_povar/basalt_custom/camera/extended_camera.hpp"
+#include "rootba_povar/basalt_custom/camera/fov_camera.hpp"
+#include "rootba_povar/basalt_custom/camera/kannala_brandt_camera4.hpp"
+#include "rootba_povar/basalt_custom/camera/pinhole_camera.hpp"
+#include "rootba_povar/basalt_custom/camera/pinhole_radtan8_camera.hpp"
+#include "rootba_povar/basalt_custom/camera/unified_camera.hpp"
 
 #include <variant>
 

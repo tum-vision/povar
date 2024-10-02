@@ -38,9 +38,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #pragma once
 
-#include <basalt/imu/imu_types.h>
-#include <basalt/utils/assert.h>
-#include <basalt/utils/sophus_utils.hpp>
+#include "rootba_povar/basalt_custom/imu/imu_types.h"
+#include "rootba_povar/basalt_custom/utils/assert.h"
+#include "rootba_povar/basalt_custom/utils/sophus_utils.hpp"
 
 namespace basalt {
 

@@ -71,7 +71,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <Eigen/Dense>
 
-#include <basalt/utils/assert.h>
+#include "rootba_povar/basalt_custom/utils/assert.h"
 
 // Renamed Pangoling defines to avoid clash
 #define BASALT_HOST_DEVICE

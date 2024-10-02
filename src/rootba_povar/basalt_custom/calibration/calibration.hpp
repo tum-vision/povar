@@ -40,9 +40,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <memory>
 
-#include <basalt/spline/rd_spline.h>
-#include <basalt/calibration/calib_bias.hpp>
-#include <basalt/camera/generic_camera.hpp>
+#include "rootba_povar/basalt_custom/spline/rd_spline.h"
+#include "rootba_povar/basalt_custom/calibration/calib_bias.hpp"
+#include "rootba_povar/basalt_custom/camera/generic_camera.hpp"
 
 namespace basalt {
 

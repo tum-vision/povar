@@ -145,7 +145,7 @@ cd "$PROJECT_DIR"
 
 INSTALL_PREFIX="$PWD/external/install$EXTERNAL_BUILD_DIR_SUFFIX"
 BUILD_EIGEN=external/build$EXTERNAL_BUILD_DIR_SUFFIX/eigen
-BUILD_PANGOLIN=external/build$EXTERNAL_BUILD_DIR_SUFFIX/Pangolin
+#BUILD_PANGOLIN=external/build$EXTERNAL_BUILD_DIR_SUFFIX/Pangolin
 BUILD_CEREAL=external/build$EXTERNAL_BUILD_DIR_SUFFIX/cereal
 BUILD_FMT=external/build$EXTERNAL_BUILD_DIR_SUFFIX/fmt
 BUILD_ABSEIL=external/build$EXTERNAL_BUILD_DIR_SUFFIX/abseil-cpp
@@ -202,24 +202,24 @@ fi
 
 ##############################################
 ## Pangolin
-if true; then
-#if false; then
-rm -rf "$BUILD_PANGOLIN"
-mkdir -p "$BUILD_PANGOLIN"
-pushd "$BUILD_PANGOLIN"
-cmake ../../Pangolin "${COMMON_CMAKE_ARGS[@]}" \
-    -DCMAKE_FIND_FRAMEWORK=LAST \
-    -DBUILD_EXAMPLES=OFF \
-    -DBUILD_TOOLS=OFF \
-    -DBUILD_TESTS=OFF \
-    -DBUILD_PANGOLIN_PYTHON=OFF \
-    -DBUILD_PANGOLIN_LIBOPENEXR=OFF
-# Note: Now we install Eigen and it provides a config module
-#    "-DEIGEN_INCLUDE_DIR=$EIGEN_DIR"
-make -j$NUM_PARALLEL_BUILDS all
-make install
-popd
-fi
+#if true; then
+##if false; then
+#rm -rf "$BUILD_PANGOLIN"
+#mkdir -p "$BUILD_PANGOLIN"
+#pushd "$BUILD_PANGOLIN"
+#cmake ../../Pangolin "${COMMON_CMAKE_ARGS[@]}" \
+#    -DCMAKE_FIND_FRAMEWORK=LAST \
+#    -DBUILD_EXAMPLES=OFF \
+#    -DBUILD_TOOLS=OFF \
+#    -DBUILD_TESTS=OFF \
+#    -DBUILD_PANGOLIN_PYTHON=OFF \
+#    -DBUILD_PANGOLIN_LIBOPENEXR=OFF
+## Note: Now we install Eigen and it provides a config module
+##    "-DEIGEN_INCLUDE_DIR=$EIGEN_DIR"
+#make -j$NUM_PARALLEL_BUILDS all
+#make install
+#popd
+#fi
 
 ##############################################
 ## Cereal

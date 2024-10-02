@@ -1,0 +1,12 @@
+prefix=/Users/simon/Documents/eccv_github/povar/external/install
+exec_prefix=${prefix}
+libdir=/Users/simon/Documents/eccv_github/povar/external/install/lib
+includedir=/Users/simon/Documents/eccv_github/povar/external/install/include
+
+Name: absl_node_slot_policy
+Description: Abseil node_slot_policy library
+URL: https://abseil.io/
+Version: 20220623
+Requires: absl_config = 20220623
+Libs: -L${libdir}  
+Cflags: -I${includedir} -Wno-float-conversion -Wno-implicit-float-conversion -Wno-implicit-int-float-conversion -Wno-implicit-int-conversion -Wno-shorten-64-to-32 -Wno-sign-conversion -Wno-unknown-warning-option -DNOMINMAX

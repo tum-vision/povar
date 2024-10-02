@@ -38,11 +38,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #pragma once
 
-#include <basalt/spline/rd_spline.h>
-#include <basalt/spline/so3_spline.h>
-#include <basalt/utils/assert.h>
+#include "rootba_povar/basalt_custom/spline/rd_spline.h"
+#include "rootba_povar/basalt_custom/spline/so3_spline.h"
+#include "rootba_povar/basalt_custom/utils/assert.h"
 
-#include <basalt/calibration/calib_bias.hpp>
+#include "rootba_povar/basalt_custom/calibration/calib_bias.hpp"
 
 #include <array>
 

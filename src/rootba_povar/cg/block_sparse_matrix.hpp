@@ -37,7 +37,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
-#include <basalt_custom/utils/hash.h>
+#include "rootba_povar/basalt_custom/utils/hash.h"
+//#include <basalt_custom/utils/hash.h>
 #include <tbb/blocked_range.h>
 #include <tbb/concurrent_unordered_map.h>
 #include <tbb/parallel_for.h>

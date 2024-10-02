@@ -38,9 +38,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #pragma once
 
-#include <basalt/serialization/eigen_io.h>
-#include <basalt/calibration/calibration.hpp>
-#include <basalt/camera/bal_camera.hpp>
+#include "rootba_povar/basalt_custom/serialization/eigen_io.h"
+#include "rootba_povar/basalt_custom/calibration/calibration.hpp"
+#include "rootba_povar/basalt_custom/camera/bal_camera.hpp"
 
 #include <cereal/archives/binary.hpp>
 #include <cereal/archives/json.hpp>
