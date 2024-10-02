@@ -2,40 +2,52 @@
 [submodule "external/Sophus"]
 	path = external/Sophus
 	url = https://github.com/strasdat/Sophus.git
+	branch = 8e19416
 [submodule "external/eigen"]
 	path = external/eigen
 	url = https://gitlab.com/libeigen/eigen.git
 [submodule "external/cereal"]
 	path = external/cereal
 	url = https://github.com/USCiLab/cereal.git
+	branch = f3e31f3
 [submodule "external/visit_struct"]
 	path = external/visit_struct
 #	url = https://github.com/cbeck88/visit_struct.git
 	url = https://github.com/NikolausDemmel/visit_struct.git
+	branch = 7b70ef1
 [submodule "external/fmt"]
 	path = external/fmt
 	url = https://github.com/fmtlib/fmt.git
+	branch = a0b8a92
 [submodule "external/abseil-cpp"]
 	path = external/abseil-cpp
 	url = https://github.com/abseil/abseil-cpp.git
+	branch = c2435f8
 [submodule "external/clipp/clipp"]
 	path = external/clipp/clipp
 	url = https://github.com/muellan/clipp.git
+	branch = 2c32b2f
 [submodule "external/ceres-solver"]
 	path = external/ceres-solver
 	url = https://github.com/ceres-solver/ceres-solver.git
+	branch = f68321e
 [submodule "external/googletest"]
 	path = external/googletest
 	url = https://github.com/google/googletest.git
+	branch = e907816
 [submodule "external/wise_enum/wise_enum"]
 	path = external/wise_enum/wise_enum
 	url = https://github.com/quicknir/wise_enum.git
+	branch = 34ac79f
 [submodule "external/enum-flags"]
 	path = external/enum-flags
 	url = https://github.com/grisumbras/enum-flags.git
+	branch = 48d25b4
 [submodule "external/toml11/toml11"]
 	path = external/toml11/toml11
 	url = https://github.com/ToruNiina/toml11.git
+	branch = dcfe39a
 [submodule "external/nameof/nameof"]
 	path = external/nameof/nameof
 	url = https://github.com/Neargye/nameof.git
+	barnch = f2522c2
