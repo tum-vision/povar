@@ -1,6 +1,6 @@
 # Power Variable Projection for Initialization-Free Large-Scale Bundle Adjustment, ECCV 2024
 
-Welcome to the official page of the paper [Power Variable Projection for Initialization-Free Large-Scale Bundle Adjustment](https://arxiv.org/pdf/2405.05079) (accepted at ECCV 2024).
+Welcome to the official page of the paper [Power Variable Projection for Initialization-Free Large-Scale Bundle Adjustment](https://arxiv.org/pdf/2405.05079) (accepted at ECCV 2024). You can find a video presentation [here](https://www.youtube.com/watch?v=PlFrfTaMfPc).
 
 ## Abstract
 
