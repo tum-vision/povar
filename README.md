@@ -86,11 +86,13 @@ In particular, you can set, among others:
 If you find our work useful in your research, please consider citing:
 
 ```bibtex
-@article{weber2024power,
+@inproceedings{weber2025power,
   title={Power Variable Projection for Initialization-Free Large-Scale Bundle Adjustment},
   author={Weber, Simon and Hong, Je Hyeong and Cremers, Daniel},
-  journal={arXiv preprint arXiv:2405.05079},
-  year={2024}
+  booktitle={European Conference on Computer Vision},
+  pages={111--126},
+  year={2025},
+  organization={Springer}
 }
 
 @inproceedings{weber2023power,
