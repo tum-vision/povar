@@ -78,10 +78,20 @@ BalBundleAdjustmentHelper<Scalar>::compute_error_weight(
         auto body = [&](const tbb::blocked_range<int>& range) {
             for (int r = range.begin(); r != range.end(); ++r) {
                 const auto& lm = bal_problem.landmarks().at(r);
+                using MatX = Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic>;
+                using VecX = Eigen::Matrix<Scalar, Eigen::Dynamic, 1>;
+                using Vec4 = Eigen::Matrix<Scalar, 4, 1>;
+                MatX G_tmp;
+                G_tmp.resize(4 * lm.obs.size(), 3);
+                VecX z_tmp;
+                z_tmp.resize(4 * lm.obs.size());
+                int m = 0;
                 for (const auto& [frame_id, obs] : lm.obs) {
                     const auto& cam = bal_problem.cameras().at(frame_id);
-                    bal_problem.landmarks().at(r).p_w += initialize_varproj_pOSE(alpha, obs.pos, cam.space_matrix);
+                    initialize_varproj_pOSE(alpha, obs.pos, cam.space_matrix, G_tmp, z_tmp, m);
+                    m += 1;
                 }
+                bal_problem.landmarks().at(r).p_w = G_tmp.bdcSvd(Eigen::ComputeThinU | Eigen::ComputeThinV).solve(z_tmp);
             }
         };
         tbb::blocked_range<int> range(0, bal_problem.num_landmarks());
@@ -208,27 +218,25 @@ BalBundleAdjustmentHelper<Scalar>::compute_error_weight(
 // initialization of VarProj: we derive v*(u0) = (G(u)^T G(u))^-1 G(u)^T obs ,
 // in line with "Revisiting the Variable Projection Method for Separable Nonlinear Least Squares Problems" (Hong et al., CVPR 2017)
     template <typename Scalar>
-    Eigen::Matrix<Scalar,3,1> BalBundleAdjustmentHelper<Scalar>::initialize_varproj_pOSE(Scalar alpha,
-            const Vec2& obs, const Mat34& T_c_w) {
-        Mat4 T_c_w_mat;
+    void BalBundleAdjustmentHelper<Scalar>::initialize_varproj_pOSE(Scalar alpha, const Vec2& obs, const Mat34& T_c_w, Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic>& G, Eigen::Matrix<Scalar, Eigen::Dynamic, 1>& z, int i) {
+        Mat43 T_c_w_mat;
 
-        T_c_w_mat.row(0) = sqrt(1.0 - alpha) * (T_c_w.row(0) - T_c_w.row(2) * obs(0));
-        T_c_w_mat.row(1) = sqrt(1.0 - alpha) * (T_c_w.row(1) - T_c_w.row(2) * obs(1));
-        T_c_w_mat.row(2) = sqrt(alpha) * T_c_w.row(0);
-        T_c_w_mat.row(3) = sqrt(alpha) * T_c_w.row(1);
+        T_c_w_mat.row(0) = sqrt(1.0 - alpha) * (T_c_w.template block<1,3>(0,0) - T_c_w.template block<1,3>(2,0) * obs(0));
+        T_c_w_mat.row(1) = sqrt(1.0 - alpha) * (T_c_w.template block<1,3>(1,0) - T_c_w.template block<1,3>(2,0) * obs(1));
+        T_c_w_mat.row(2) = sqrt(alpha) * T_c_w.template block<1,3>(0,0);
+        T_c_w_mat.row(3) = sqrt(alpha) * T_c_w.template block<1,3>(1,0);
 
-        Eigen::Matrix<Scalar,4,4> Gu = T_c_w_mat;
+        G.template block<4,3>(4*i,0) = T_c_w_mat;
+
+        //Eigen::Matrix<Scalar,4,4> Gu = T_c_w_mat;
         Vec4 obs_extended;
         obs_extended.setZero();
-        obs_extended(2) = sqrt(alpha) * obs(0);
-        obs_extended(3) = sqrt(alpha) * obs(1);
-        Vec4 v_init_hom = Gu.colPivHouseholderQr().solve(obs_extended);
-        const Scalar mx = v_init_hom[0]/ v_init_hom[3];
-        const Scalar my = v_init_hom[1]/ v_init_hom[3];
-        const Scalar mz = v_init_hom[2]/ v_init_hom[3];
+        obs_extended(0) = sqrt(1.0 - alpha) * (T_c_w(2,3) * obs(0) - T_c_w(0,3));
+        obs_extended(1) = sqrt(1.0 - alpha) * (T_c_w(2,3) * obs(1) - T_c_w(1,3));
+        obs_extended(2) = sqrt(alpha) * (obs(0) - T_c_w(0,3));
+        obs_extended(3) = sqrt(alpha) * (obs(1) - T_c_w(1,3));
 
-        Vec3 v_init = Vec3(mx, my, mz);
-        return v_init;
+        z.template block<4,1>(4*i,0) = obs_extended;
 
     }
 
