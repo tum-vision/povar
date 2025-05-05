@@ -107,9 +107,7 @@ class BalBundleAdjustmentHelper {
       const BalResidualOptions& options, Scalar res_squared);
 
 
-    static Eigen::Matrix<Scalar, 3,1> initialize_varproj_pOSE(Scalar alpha,
-            const Vec2& obs, const Mat34& T_c_w);
-
+    static void initialize_varproj_pOSE(Scalar alpha, const Vec2& obs, const Mat34& T_c_w, Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic>& G, Eigen::Matrix<Scalar, Eigen::Dynamic, 1>& z, int i);
 
     static Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic> kernel_COD(
             const Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic>& M);
@@ -140,7 +138,6 @@ class BalBundleAdjustmentHelper {
             VecR& res,
             MatRP_projective_space* d_res_d_xi = nullptr,
             MatRL_projective_space_homogeneous * d_res_d_l = nullptr);
-
 
   static void initialize_varproj_lm_pOSE(Scalar alpha, BalProblem<Scalar>& bal_problem);
   static void setzeros_varproj_lm(BalProblem<Scalar>& bal_problem);
